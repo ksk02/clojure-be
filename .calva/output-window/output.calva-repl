@@ -1,0 +1,107 @@
+; This is the Calva REPL Window.
+; It's just a file, really, with some special treatment from Calva.
+; Use it as a REPL input prompt if you like. (When the REPL is connected.)
+; TIPS: The keyboard shortcut `ctrl+alt+o r` shows and focuses this window
+; Please see https://calva.io/repl-window/ for more info.
+; Happy coding! ♥️
+
+; TIPS: As with any Clojure file when the REPL is connected:
+; - `alt+enter` evaluates the current top level form.
+; - `ctrl+enter` evaluates the current form.
+; Special for this file:
+; - `alt+up` and `alt+down` traverse up and down the REPL command history
+;    when the cursor is after the last contents at the prompt
+; 
+; See also the Calva Inspector: https://calva.io/inspector/
+
+PLEASE NOTE
+We will update the default location of this file.
+The new default location will be
+  "<projectRootPath>/.calva/repl.calva-repl"
+For now the legacy path is used by default.
+To give yourself a smooth transition, you can opt in
+to the change, by configuring this setting as false:
+  "calva.useLegacyReplWindowPath"
+and then add "**/.calva/repl.calva-repl" to your ".gitignore" file.
+
+
+This file is configured as the output destination for all REPL output.
+You can configure this with the setting:
+  "calva.outputDestinations"
+
+
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-app; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:52975 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+"Please see https://calva.io/output/#about-stdout-in-the-repl-window
+about why stdout printed to this file is prepended with `;` to be line comments."
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> main
+; Syntax error compiling at (.calva/output-window/output.calva-repl:0:0).
+; Unable to resolve symbol: main in this context
+clj꞉clojure-app.core꞉> 
+-main
+#function[clojure-app.core/-main]
+clj꞉clojure-app.core꞉> 
+(-main)
+; Hello, World!
+nil
+clj꞉clojure-app.core꞉> (clojure-app.core/-main)
+; Hello, World!
+nil
+clj꞉clojure-app.core꞉> (require '[clj-http.client :as http])
+nil
+clj꞉clojure-app.core꞉> (def response (http/get "https://leiningen.org"))
+#'clojure-app.core/response
+clj꞉clojure-app.core꞉> (keys response)
+(:status :headers :body :request-time :trace-redirects :orig-content-encoding)
+clj꞉clojure-app.core꞉> (source -main)
+; (defn -main
+;   "I don't do a whole lot ... yet."
+;   [& args]
+;   (println "Hello, World!"))
+nil
+clj꞉clojure-app.core꞉> 
+; Running all project tests…
+; No tests found. 😱, ns: 0, vars: 0
+clj꞉clojure-app.core꞉> 
+; Running test: a-test…
+; No tests found. 😱, ns: 0, vars: 0
+clj꞉clojure-app.core꞉> 
+; Running test: a-test…
+; No tests found. 😱, ns: 0, vars: 0
+clj꞉clojure-app.core꞉> 
+; Running all project tests…
+; No tests found. 😱, ns: 0, vars: 0
+clj꞉clojure-app.core꞉> (run-tests 'clojure-app.core-test)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:87:24).
+; Unable to resolve symbol: run-tests in this context
+clj꞉clojure-app.core꞉> (ns user)
+nil
+clj꞉user꞉> (run-test 'clojure-app.core-test)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:92:12).
+; Unable to resolve symbol: run-test in this context
+clj꞉user꞉> 
+(require '[clojure.test :refer :all])
+nil
+clj꞉user꞉> 
+(run-tests 'clojure-app.core-test)
+; 
+; Testing clojure-app.core-test
+; 
+; Ran 0 tests containing 0 assertions.
+; 0 failures, 0 errors.
+{:test 0, :pass 0, :fail 0, :error 0, :type :summary}
+clj꞉user꞉> 
+; nREPL Connection was closed
