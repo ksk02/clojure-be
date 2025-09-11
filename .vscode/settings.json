@@ -1,0 +1,4 @@
+{
+  "calva.evalOnSave": true,
+  "calva.enableClojureLspOnStart": "when-file-opened-use-furthest-project",
+}
