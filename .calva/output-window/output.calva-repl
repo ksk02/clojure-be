@@ -36,8 +36,8 @@ You can configure this with the setting:
 ;   - See https://calva.io/connect-sequences/
 ; 
 
-; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-app; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
-; Using host:port 127.0.0.1:52975 ...
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:50337 ...
 ; Hooking up nREPL sessions ...
 ; Connected session: clj
 ; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
@@ -47,61 +47,223 @@ clj꞉clojure-app.core꞉> 
 about why stdout printed to this file is prepended with `;` to be line comments."
 clj꞉clojure-app.core꞉> 
 ; Jack-in done.
-clj꞉clojure-app.core꞉> main
-; Syntax error compiling at (.calva/output-window/output.calva-repl:0:0).
-; Unable to resolve symbol: main in this context
-clj꞉clojure-app.core꞉> 
--main
-#function[clojure-app.core/-main]
-clj꞉clojure-app.core꞉> 
-(-main)
-; Hello, World!
-nil
-clj꞉clojure-app.core꞉> (clojure-app.core/-main)
-; Hello, World!
-nil
-clj꞉clojure-app.core꞉> (require '[clj-http.client :as http])
-nil
-clj꞉clojure-app.core꞉> (def response (http/get "https://leiningen.org"))
-#'clojure-app.core/response
-clj꞉clojure-app.core꞉> (keys response)
-(:status :headers :body :request-time :trace-redirects :orig-content-encoding)
-clj꞉clojure-app.core꞉> (source -main)
-; (defn -main
-;   "I don't do a whole lot ... yet."
-;   [& args]
-;   (println "Hello, World!"))
-nil
-clj꞉clojure-app.core꞉> 
-; Running all project tests…
-; No tests found. 😱, ns: 0, vars: 0
-clj꞉clojure-app.core꞉> 
-; Running test: a-test…
-; No tests found. 😱, ns: 0, vars: 0
-clj꞉clojure-app.core꞉> 
-; Running test: a-test…
-; No tests found. 😱, ns: 0, vars: 0
-clj꞉clojure-app.core꞉> 
-; Running all project tests…
-; No tests found. 😱, ns: 0, vars: 0
-clj꞉clojure-app.core꞉> (run-tests 'clojure-app.core-test)
-; Syntax error compiling at (.calva/output-window/output.calva-repl:87:24).
-; Unable to resolve symbol: run-tests in this context
 clj꞉clojure-app.core꞉> (ns user)
 nil
-clj꞉user꞉> (run-test 'clojure-app.core-test)
-; Syntax error compiling at (.calva/output-window/output.calva-repl:92:12).
-; Unable to resolve symbol: run-test in this context
-clj꞉user꞉> 
-(require '[clojure.test :refer :all])
+clj꞉user꞉> (require '[ring.adapter.jetty :as s])
+; Execution error (FileNotFoundException) at user/eval10225 (REPL:52).
+; Could not locate ring/adapter/jetty__init.class, ring/adapter/jetty.clj or ring/adapter/jetty.cljc on classpath.
+clj꞉user꞉> (ns clojure-app.core)
 nil
-clj꞉user꞉> 
-(run-tests 'clojure-app.core-test)
+clj꞉clojure-app.core꞉> (require '[ring.adapter.jetty :as s])
+; Execution error (FileNotFoundException) at clojure-app.core/eval10276 (REPL:57).
+; Could not locate ring/adapter/jetty__init.class, ring/adapter/jetty.clj or ring/adapter/jetty.cljc on classpath.
+clj꞉clojure-app.core꞉> (require '[ring.adapter.jetty :as s])
+; Execution error (FileNotFoundException) at clojure-app.core/eval10278 (REPL:60).
+; Could not locate ring/adapter/jetty__init.class, ring/adapter/jetty.clj or ring/adapter/jetty.cljc on classpath.
+clj꞉clojure-app.core꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
 ; 
-; Testing clojure-app.core-test
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:51203 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (require '[ring.adapter.jetty :as s])
+nil
+clj꞉clojure-app.core꞉> (def server (atom nil))
+#'clojure-app.core/server
+clj꞉clojure-app.core꞉> (reset! server (s/run-jetty (fn [req] {:body "Hello, world"}) {:port 3000 :join? false}))
+#object[org.eclipse.jetty.server.Server 0x107edc40 "org.eclipse.jetty.server.Server@107edc40"]
 ; 
-; Ran 0 tests containing 0 assertions.
-; 0 failures, 0 errors.
-{:test 0, :pass 0, :fail 0, :error 0, :type :summary}
+; 2025-09-02 07:07:39.001:INFO::nREPL-session-db6367b6-c932-497f-a99a-518fbf501c0a: Logging initialized @171774ms
+; 2025-09-02 07:07:39.007:INFO:oejs.Server:nREPL-session-db6367b6-c932-497f-a99a-518fbf501c0a: jetty-9.2.10.v20150310
+; 2025-09-02 07:07:39.019:INFO:oejs.ServerConnector:nREPL-session-db6367b6-c932-497f-a99a-518fbf501c0a: Started ServerConnector@10a72a86{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:07:39.019:INFO:oejs.Server:nREPL-session-db6367b6-c932-497f-a99a-518fbf501c0a: Started @171792ms
+clj꞉clojure-app.core꞉> (.stop @server)
+nil
+; 
+; 2025-09-02 07:11:54.766:INFO:oejs.ServerConnector:nREPL-session-db6367b6-c932-497f-a99a-518fbf501c0a: Stopped ServerConnector@10a72a86{HTTP/1.1}{0.0.0.0:3000}
+clj꞉clojure-app.core꞉> (reset! server nil)
+nil
+clj꞉clojure-app.core꞉> (start-server)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:96:24).
+; Unable to resolve symbol: start-server in this context
+clj꞉clojure-app.core꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:59264 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (start-server)
+#object[org.eclipse.jetty.server.Server 0x679afeea "org.eclipse.jetty.server.Server@679afeea"]
+; 
+; 2025-09-02 07:24:19.306:INFO::nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Logging initialized @8238ms
+; 2025-09-02 07:24:19.312:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: jetty-9.2.10.v20150310
+; 2025-09-02 07:24:19.324:INFO:oejs.ServerConnector:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started ServerConnector@16269834{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:24:19.324:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started @8256ms
+clj꞉clojure-app.core꞉> (stop-server)
+nil
+; 
+; 2025-09-02 07:24:40.528:INFO:oejs.ServerConnector:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Stopped ServerConnector@16269834{HTTP/1.1}{0.0.0.0:3000}
+clj꞉clojure-app.core꞉> (ns user)
+nil
+clj꞉user꞉> (require '[clojure-app.core :as c])
+nil
+clj꞉user꞉> (c/start-server)
+#object[org.eclipse.jetty.server.Server 0x629e2b2b "org.eclipse.jetty.server.Server@629e2b2b"]
+; 
+; 2025-09-02 07:29:20.546:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: jetty-9.2.10.v20150310
+; 2025-09-02 07:29:20.547:INFO:oejs.ServerConnector:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started ServerConnector@4d723e98{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:29:20.547:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started @309478ms
+clj꞉user꞉> (c/restart-server)
+#object[org.eclipse.jetty.server.Server 0x60cf4c10 "org.eclipse.jetty.server.Server@60cf4c10"]
+; 
+; 2025-09-02 07:30:22.244:INFO:oejs.ServerConnector:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Stopped ServerConnector@4d723e98{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:30:22.246:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: jetty-9.2.10.v20150310
+; 2025-09-02 07:30:22.247:INFO:oejs.ServerConnector:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started ServerConnector@433d0a8{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:30:22.247:INFO:oejs.Server:nREPL-session-caf96353-e833-4471-bce5-f3963a1fe8f2: Started @371177ms
 clj꞉user꞉> 
 ; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:62545 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (ns user)
+nil
+clj꞉user꞉> (require '[clojure-app.core :as c])
+nil
+clj꞉user꞉> (c/start-server)
+#object[org.eclipse.jetty.server.Server 0x7fc350c3 "org.eclipse.jetty.server.Server@7fc350c3"]
+; 
+; 2025-09-02 07:31:20.727:INFO::nREPL-session-4c940246-a721-431c-9052-206a520f6ce1: Logging initialized @28169ms
+; 2025-09-02 07:31:20.734:INFO:oejs.Server:nREPL-session-4c940246-a721-431c-9052-206a520f6ce1: jetty-9.2.10.v20150310
+; 2025-09-02 07:31:20.746:INFO:oejs.ServerConnector:nREPL-session-4c940246-a721-431c-9052-206a520f6ce1: Started ServerConnector@e25abff{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:31:20.747:INFO:oejs.Server:nREPL-session-4c940246-a721-431c-9052-206a520f6ce1: Started @28188ms
+clj꞉user꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:52767 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (require '[clojure-app.core :as c])
+nil
+clj꞉clojure-app.core꞉> (c/start-server)
+#object[org.eclipse.jetty.server.Server 0x134ff58d "org.eclipse.jetty.server.Server@134ff58d"]
+; 
+; 2025-09-02 07:51:08.975:INFO::nREPL-session-5518ccc4-861a-42af-b420-88cadc710111: Logging initialized @18158ms
+; 2025-09-02 07:51:08.982:INFO:oejs.Server:nREPL-session-5518ccc4-861a-42af-b420-88cadc710111: jetty-9.2.10.v20150310
+; 2025-09-02 07:51:08.994:INFO:oejs.ServerConnector:nREPL-session-5518ccc4-861a-42af-b420-88cadc710111: Started ServerConnector@334010b3{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:51:08.994:INFO:oejs.Server:nREPL-session-5518ccc4-861a-42af-b420-88cadc710111: Started @18178ms
+clj꞉clojure-app.core꞉> (home {})
+{:status 200,
+ :body "<h1>Welcome to the Home Page</h1>\n   <a href=\"/todo \">Go to Todo List</a>",
+ :headers {"Content-Type" "text/html: charset=utf-8"}}
+clj꞉clojure-app.core꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:53547 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (require '[clojure-app.core :as c])
+nil
+clj꞉clojure-app.core꞉> (c/start-server)
+#object[org.eclipse.jetty.server.Server 0x6ea0557f "org.eclipse.jetty.server.Server@6ea0557f"]
+; 
+; 2025-09-02 07:54:07.064:INFO::nREPL-session-4f2f69c4-f880-4e5b-bcb7-e71e8255a867: Logging initialized @14557ms
+; 2025-09-02 07:54:07.069:INFO:oejs.Server:nREPL-session-4f2f69c4-f880-4e5b-bcb7-e71e8255a867: jetty-9.2.10.v20150310
+; 2025-09-02 07:54:07.080:INFO:oejs.ServerConnector:nREPL-session-4f2f69c4-f880-4e5b-bcb7-e71e8255a867: Started ServerConnector@1494dcca{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-02 07:54:07.080:INFO:oejs.Server:nREPL-session-4f2f69c4-f880-4e5b-bcb7-e71e8255a867: Started @14574ms
+clj꞉clojure-app.core꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /Users/harakeisuke/study/clojure/clojure-be; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:49829 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉clojure-app.core꞉> 
+; Jack-in done.
+clj꞉clojure-app.core꞉> (go)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:240:24).
+; Unable to resolve symbol: go in this context
+clj꞉clojure-app.core꞉> (c/start-server)
+; Syntax error compiling at (.calva/output-window/output.calva-repl:243:24).
+; No such namespace: c
+clj꞉clojure-app.core꞉> 
+; Evaluating file: core.clj
+#'clojure-app.core/restart-server
+clj꞉clojure-app.core꞉> (require '[clojure-app.core :as c])
+nil
+clj꞉clojure-app.core꞉> (c/start-server)
+#object[org.eclipse.jetty.server.Server 0x7f75a83c "org.eclipse.jetty.server.Server@7f75a83c"]
+; 
+; 2025-09-11 21:37:24.979:INFO::nREPL-session-d401053d-0577-44d8-b4e6-7b54dc63ab6a: Logging initialized @55365ms
+; 2025-09-11 21:37:24.994:INFO:oejs.Server:nREPL-session-d401053d-0577-44d8-b4e6-7b54dc63ab6a: jetty-9.2.10.v20150310
+; 2025-09-11 21:37:25.006:INFO:oejs.ServerConnector:nREPL-session-d401053d-0577-44d8-b4e6-7b54dc63ab6a: Started ServerConnector@367280b7{HTTP/1.1}{0.0.0.0:3000}
+; 2025-09-11 21:37:25.006:INFO:oejs.Server:nREPL-session-d401053d-0577-44d8-b4e6-7b54dc63ab6a: Started @55392ms
+clj꞉clojure-app.core꞉> (home {})
+{:status 200,
+ :body "<h1>Welcome to the Home Page</h1>\n   <a href=\"/todo \">Go to Todo List</a>",
+ :headers {"Content-Type" "text/html; charset=utf-8"}}
+clj꞉clojure-app.core꞉> 
+; Evaluating file: project.clj
+; 
+; ; clj  user 
+; Syntax error compiling at (project.clj:1:1).
+; Unable to resolve symbol: defproject in this context
+; Evaluation of file project.clj failed: class clojure.lang.Compiler$CompilerException
+clj꞉user꞉> 
