@@ -12,6 +12,12 @@
       res/response
       res/html))
 
+;; (defn home [req]
+;;   (throw (Exception. "Test Exception!!"))
+;;   #_(-> (home-view req)
+;;         res/response
+;;         res/html))
+
 (defroutes main-routes
   (GET "/" _ home)
   (route/not-found "<h1>Not found</h1>"))

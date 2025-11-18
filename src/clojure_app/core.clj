@@ -2,14 +2,24 @@
   (:require [compojure.core :refer [routes]]
             [ring.adapter.jetty :as server]
             [clojure-app.handler.main :refer [main-routes]]
-            [clojure-app.handler.todo :refer [todo-routes]]))
+            [clojure-app.handler.todo :refer [todo-routes]]
+            [clojure-app.middleware :refer [wrap-dev]]
+            [environ.core :refer [env]]))
 
 (defonce server (atom nil))
 
+(defn- wrap [handler middleware opt]
+  (if (true? opt)
+    (middleware handler)
+    (if opt
+      (middleware handler opt)
+      handler)))
+
 (def app
-  (routes
-   todo-routes
-   main-routes))
+  (-> (routes
+       todo-routes
+       main-routes)
+      (wrap wrap-dev (:dev env))))
 
 (defn start-server []
   (when-not @server
