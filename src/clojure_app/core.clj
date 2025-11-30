@@ -21,8 +21,8 @@
   (-> (routes
        todo-routes
        main-routes)
-      (wrap wrap-params {:make-vectors true})
       (wrap wrap-keyword-params true)
+      (wrap wrap-params {:make-vectors true})
       (wrap wrap-dev (:dev env))))
 
 (defn start-server []
@@ -38,3 +38,7 @@
   (when @server
     (stop-server)
     (start-server)))
+
+(defn -main [& args]
+  (start-server)
+  (.join @server))
