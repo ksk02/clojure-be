@@ -15,10 +15,19 @@
         fetch-station (fn [name]
                         (let [url "https://express.heartrails.com/api/json"
                               resp (client/get url {:query-params {:method "getStations" :name name}
-                                                    :as :json})]
-                          (:body resp)))
-        result (map fetch-station stations)]
-    (-> (res/response (json/generate-string result))
+                                                    :as :json})
+                              body (:body resp)
+                              station-info (first (get-in body [:response :station]))] ;; 複数路線取得できる.
+                          {:x (:x station-info) :y (:y station-info)}))
+        fetched-locations (map fetch-station stations)
+        existedStations (filter (fn [c] (and (:x c) (:y c))) fetched-locations)
+        count (count existedStations)
+        centroid (if (pos? count)
+                   (let [sum-x (reduce + (map :x existedStations))
+                         sum-y (reduce + (map :y existedStations))]
+                     {:x (/ sum-x count) :y (/ sum-y count)})
+                   nil)]
+    (-> (res/response (json/generate-string {:centroid centroid}))
         (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8"))))
 
 (defn home [req]
