@@ -33,8 +33,14 @@
             y (round-2 (:y centroid))
             url "https://express.heartrails.com/api/json"
             resp (client/get url {:query-params {:method "getStations" :x x :y y}
-                                  :as :json})]
-        (-> (res/response (json/generate-string (:body resp)))
+                                  :as :json})
+            station-list (get-in resp [:body :response :station])
+            grouped (->> station-list
+                         (group-by :name)
+                         (mapv (fn [[name entries]]
+                                {:name name
+                                 :lines (mapv :line entries)})))]
+        (-> (res/response (json/generate-string {:stations grouped}))
             (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8")))
       (-> (res/response (json/generate-string {:error "No valid stations found to calculate centroid."}))
           (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8")))))
