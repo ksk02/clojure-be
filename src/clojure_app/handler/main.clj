@@ -27,8 +27,17 @@
                          sum-y (reduce + (map :y existedStations))]
                      {:x (/ sum-x count) :y (/ sum-y count)})
                    nil)]
-    (-> (res/response (json/generate-string {:centroid centroid}))
-        (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8"))))
+    (if centroid
+      (let [round-2 (fn [n] (Double/parseDouble (format "%.2f" n)))
+            x (round-2 (:x centroid))
+            y (round-2 (:y centroid))
+            url "https://express.heartrails.com/api/json"
+            resp (client/get url {:query-params {:method "getStations" :x x :y y}
+                                  :as :json})]
+        (-> (res/response (json/generate-string (:body resp)))
+            (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8")))
+      (-> (res/response (json/generate-string {:error "No valid stations found to calculate centroid."}))
+          (assoc-in [:headers "Content-Type"] "application/json; charset=utf-8")))))
 
 (defn home [req]
   (-> (home-view req)
