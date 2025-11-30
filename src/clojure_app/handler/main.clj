@@ -8,8 +8,11 @@
    <a href=\"/todo\">TODO 一覧</a>")
 
 (defn centroid-station-handler [{:keys [params]}]
-  (-> (res/response (pr-str params))
-      (assoc-in [:headers "Content-Type"] "text/plain; charset=utf-8")))
+  (let [stations (:stations params)
+        stations (if (vector? stations) stations [stations])
+        result (apply str stations)]
+    (-> (res/response result)
+        (assoc-in [:headers "Content-Type"] "text/plain; charset=utf-8"))))
 
 (defn home [req]
   (-> (home-view req)
